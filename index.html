@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APAAR Student Data Portal – AICTE</title>
+<style>
+:root{--teal:#0b7a75;--teal-d:#075e5a;--mint:#e3f6f3;--mint2:#c9ebe6;--ink:#1d2b2a;--mut:#5c6c6b;--line:#dbe7e5;--red:#e5484d;--amb:#e8a317;--grn:#2fb47c;--bg:#fff}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+button,input,select,textarea{font:inherit}
+.nav{display:flex;align-items:center;gap:18px;padding:16px 5vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5;flex-wrap:wrap}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.5px}.logo b{color:var(--teal)}
+.nav a{color:var(--ink);text-decoration:none;font-size:15px;cursor:pointer;padding:4px 0;border-bottom:2px solid transparent}
+.nav a.on{color:var(--teal);border-color:var(--teal)}
+.sp{flex:1}
+.role{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut)}
+.role select{border:1px solid var(--teal);color:var(--teal);background:var(--mint);border-radius:6px;padding:8px 10px;font-weight:600;cursor:pointer}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:4px;padding:10px 20px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--teal-d)}.btn.o{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;padding:60px 5vw;align-items:center;background:linear-gradient(120deg,#fff 40%,var(--mint) 100%)}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.1;font-weight:600;letter-spacing:-1px}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{color:var(--mut);margin:20px 0 28px;max-width:46ch}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:26px;font-size:13px;color:var(--mut)}
+.flow span{background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 12px}
+.card{background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(11,122,117,.12);padding:22px}
+.wrap{padding:36px 5vw}
+h2{font-size:26px;font-weight:600;margin-bottom:6px}.sub{color:var(--mut);margin-bottom:22px;font-size:14px}
+.tag{font-size:13px;color:var(--teal);display:flex;align-items:center;gap:10px;margin-bottom:8px}.tag:after{content:"";width:50px;border-top:1px solid var(--teal)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+.kpi small{color:var(--mut)}.kpi div{font-size:30px;font-weight:700;color:var(--teal)}.kpi.bad div{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mut);font-weight:600;padding:10px 8px;border-bottom:2px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line)}
+.scroll{overflow-x:auto}
+.pill{border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600;display:inline-block;margin:1px}
+.ok{background:#dcf5e9;color:#17754f}.warn{background:#fdf0cf;color:#8a5f00}.err{background:#fde3e4;color:#b02a30}
+.bar{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px}.bar>span:first-child{width:120px;flex:none}
+.track{flex:1;background:var(--mint);border-radius:4px;height:14px;position:relative;overflow:hidden}
+.fill{height:100%;background:var(--teal);border-radius:4px}.fill.x{background:var(--red)}
+label{font-size:13px;color:var(--mut);display:block;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.alert{border-left:4px solid var(--red);background:#fff6f6;padding:10px 14px;margin:8px 0;border-radius:4px;font-size:14px}
+.alert.w{border-color:var(--amb);background:#fffaf0}
+.cta{background:var(--teal);color:#fff;border-radius:12px;padding:34px;margin:30px 5vw;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.cta h3{font-size:24px;font-weight:600}.cta .btn{background:#fff;color:var(--teal)}
+footer{background:var(--teal);color:#cfeeea;padding:30px 5vw;font-size:13px}
+.hash{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--mut)}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:9}
+@media print{.nav,footer,.cta,.noprint,.toast{display:none!important}}
+@media(max-width:800px){.hero,.grid2{grid-template-columns:1fr}.nav{gap:14px}}
+@media(prefers-reduced-motion:no-preference){.fill{transition:width .6s}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+<main id="main"></main>
+<div class="cta"><div><h3>One academic identity. One verified record.</h3><p>Demo prototype for the AICTE APAAR Student Data Management &amp; Verification System.</p></div><button class="btn" onclick="go('verify')">Verify a student</button></div>
+<footer>APAAR Portal prototype · All data on this page is synthetic and held in browser memory only · Production design: server-side auth, role-based access, encrypted storage, DPDP-aligned consent.</footer>
+<div class="toast" id="toast"></div>
+<div id="idle" style="display:none;position:fixed;inset:0;background:rgba(7,94,90,.85);z-index:20;align-items:center;justify-content:center"><div class="card" style="text-align:center;max-width:380px"><h2>Still there?</h2><p class="sub">You will be signed out in <b id="idle_n">15</b> seconds because of inactivity.</p><button class="btn" onclick="stay()">Stay signed in</button></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const hash=s=>{let x=2166136261;for(let i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619)}return(x>>>0).toString(16).padStart(8,"0")};
+const mask=a=>a.length>=8?a.slice(0,4)+"••••"+a.slice(-4):a;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",2800)}
+
+/* ---------- seed data (synthetic) ---------- */
+const INST=[
+ {id:"I1",name:"Pune Institute of Technology",state:"Maharashtra",intake:12},
+ {id:"I2",name:"Deccan School of Management",state:"Maharashtra",intake:8},
+ {id:"I3",name:"Lakeview Engineering College",state:"Karnataka",intake:6},
+ {id:"I4",name:"Narmada Polytechnic",state:"Gujarat",intake:8},
+ {id:"I5",name:"Eastern Pharmacy Institute",state:"West Bengal",intake:6}];
+const CATS=["General","OBC","SC","ST","EWS","NRI","OCI","Foreign National","Supernumerary"];
+const NAMES=["Aarav","Diya","Rohan","Meera","Kabir","Ananya","Ishaan","Sneha","Vihaan","Tara","Arjun","Riya","Neel","Pooja","Dev","Isha","Karan","Nisha","Yash","Sara"];
+const SUR=["Patil","Shah","Iyer","Khan","Das","Nair","Joshi","Reddy","Gupta","Kulkarni"];
+let seed=7;const rnd=()=>(seed=(seed*1103515245+12345)&0x7fffffff)/0x7fffffff;
+const S=[];
+INST.forEach((it,k)=>{const n=[11,8,9,7,5][k];
+ for(let i=0;i<n;i++)S.push({apaar:String(2100+k)+String(Math.floor(rnd()*1e8)).padStart(8,"0"),name:NAMES[Math.floor(rnd()*20)]+" "+SUR[Math.floor(rnd()*10)],inst:it.id,cat:CATS[Math.floor(rnd()*5)],consent:rnd()>.1})});
+S.push({apaar:S[0].apaar,name:"Rohan Patil",inst:"I2",cat:"General",consent:true});      // cross-institution duplicate
+S.push({apaar:"21003X7",name:"Test Entry",inst:"I4",cat:"OBC",consent:true});           // invalid
+S[3].supernumerary=true;S[3].cat="Supernumerary";
+S.forEach(s=>{s.ch=[{a:s.consent===false?"withdrawn":"granted",t:"seed",exp:null}];delete s.consent});
+const AUDIT=[];
+function log(actor,action,detail){const prev=AUDIT.length?AUDIT[AUDIT.length-1].h:"00000000";const e={t:new Date().toLocaleTimeString(),actor,action,detail,prev};e.h=hash(prev+e.t+actor+action+detail);AUDIT.push(e)}
+log("System","SEED","Synthetic data loaded");log("Pune Institute of Technology","UPLOAD",S.length+" records submitted");log("AICTE Validator","VALIDATE","Rules executed on central repository");
+
+/* ---------- validation engine ---------- */
+function analyse(){
+ const flags=new Map(),add=(s,m,l)=>{const a=flags.get(s)||[];a.push({m,l});flags.set(s,a)};
+ const byId={};S.forEach(s=>(byId[s.apaar]=byId[s.apaar]||[]).push(s));
+ S.forEach(s=>{
+  if(!/^\d{12}$/.test(s.apaar))add(s,"Invalid or missing APAAR ID (12 digits required)","err");
+  const g=byId[s.apaar];
+  if(g.length>1){const same=g.filter(x=>x.inst===s.inst).length>1;
+    same?add(s,"Duplicate record within institution","err"):add(s,"Enrolled in "+g.length+" institutions","err")}
+  if(!hasConsent(s))add(s,"Consent not recorded","warn");
+ });
+ const stats=INST.map(it=>{const m=S.filter(s=>s.inst===it.id),reg=m.filter(s=>!s.supernumerary),f=m.filter(s=>(flags.get(s)||[]).some(x=>x.l==="err")).length;
+  const excess=Math.max(0,reg.length-it.intake);
+  if(excess)reg.slice(it.intake).forEach(s=>add(s,"Admission beyond approved intake","err"));
+  const comp=Math.max(0,Math.round(100-(f/Math.max(1,m.length))*100-excess*6));
+  const anom=[];if(m.length>(PREV[it.id]||99)*1.4)anom.push("Enrolment spike: "+m.length+" this year against "+PREV[it.id]+" last year");
+  const cc={};m.forEach(s=>cc[s.cat]=(cc[s.cat]||0)+1);const top=Object.entries(cc).sort((a,b)=>b[1]-a[1])[0];if(top&&m.length>=5&&top[1]/m.length>.6)anom.push("Category skew: "+top[0]+" is "+Math.round(top[1]/m.length*100)+"% of admissions");
+  const risk=Math.min(100,f*15+excess*12+anom.length*10);
+  return{...it,enrolled:m.length,regular:reg.length,flagged:f,excess,comp,risk,anom}});
+ return{flags,stats};
+}
+const lvl=r=>r>=40?["High","err"]:r>=15?["Medium","warn"]:["Low","ok"];
+
+/* ---------- roles & navigation ---------- */
+const ROLES={
+ admin:{label:"AICTE Administrator",views:["home","dash","students","transfers","alerts","consent","audit","verify","cert","api","security"]},
+ inst:{label:"Institution (Pune Institute of Technology)",views:["home","dash","upload","students","transfers","consent","alerts","verify","cert","api","security"]},
+ reg:{label:"Regulatory Body",views:["home","dash","alerts","audit","verify","api","security"]},
+ emp:{label:"Employer",views:["home","verify","security"]}};
+const VN={home:"Home",dash:"Dashboard",upload:"Upload data",students:"Students",alerts:"Alerts",audit:"Audit trail",verify:"Verify",transfers:"Transfers",consent:"Consent",cert:"Certificate",api:"API",security:"Security"};
+let role="admin",view="home";
+function go(v){if(!ROLES[role].views.includes(v))v="home";view=v;render();scrollTo(0,0)}
+function setRole(r){role=r;if(!ROLES[r].views.includes(view))view="home";render();toast("Switched role: "+ROLES[r].label)}
+
+function renderNav(){
+ $("#nav").innerHTML=`<div class="logo">APAAR<b>Portal</b></div>`+
+ ROLES[role].views.map(v=>`<a class="${v===view?"on":""}" onclick="go('${v}')" tabindex="0" onkeydown="if(event.key==='Enter')go('${v}')">${VN[v]}</a>`).join("")+
+ `<div class="sp"></div><div class="role"><label for="rs" style="margin:0">Viewing as</label><select id="rs" onchange="setRole(this.value)">${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${k===role?"selected":""}>${v.label}</option>`).join("")}</select></div>`;
+}
+function render(){renderNav();$("#main").innerHTML=V[view]();resetIdle()}
+
+/* ---------- views ---------- */
+const V={};
+function scopeStats(){const a=analyse();return role==="inst"?{...a,stats:a.stats.filter(x=>x.id==="I1")}:a}
+V.home=()=>{const{stats}=analyse();return`
+<section class="hero"><div><div class="tag">AICTE · National student data</div>
+<h1>Verified student records on a <em>single academic identity</em></h1>
+<p>Institutions submit student-level data against APAAR ID. The platform validates it, flags excess admissions and duplicate enrolment, and lets authorised parties verify records securely.</p>
+<button class="btn" onclick="go('${role==="emp"?"verify":"dash"}')">${role==="emp"?"Verify a student":"Open dashboard"}</button>
+<div class="flow"><span>Institution</span><span>Upload</span><span>APAAR validation</span><span>Verification</span><span>AICTE repository</span><span>Analytics</span><span>Authorised check</span></div></div>
+<div class="card"><b>Live admissions snapshot</b>${stats.map(s=>`<div class="bar"><span>${esc(s.name.split(" ")[0])} ${esc(s.name.split(" ")[1]||"")}</span><div class="track"><div class="fill ${s.excess?"x":""}" style="width:${Math.min(100,s.regular/s.intake*100)}%"></div></div><span>${s.regular}/${s.intake}</span></div>`).join("")}<small style="color:var(--mut)">Red bar = enrolment above approved intake</small></div></section>
+<section class="wrap"><div class="tag">What it does</div><h2>Built for the ten requirements in the problem statement</h2><p class="sub">You are viewing the portal as <b>${ROLES[role].label}</b>. Use the role menu at top right to see what other users can access.</p>
+<div class="grid2"><div class="card"><b>Validate</b><p class="sub">Invalid APAAR, duplicates, cross-institution enrolment, intake overflow, missing consent.</p></div><div class="card"><b>Monitor</b><p class="sub">Compliance score, risk score and smart alerts per institution, updated on every upload.</p></div><div class="card"><b>Verify</b><p class="sub">Signed, expiring QR tokens for employers and regulators. IDs masked by default.</p></div><div class="card"><b>Audit</b><p class="sub">Tamper-evident log: each entry carries a hash of the one before it.</p></div></div></section>`};
+
+V.dash=()=>{const{stats,flags}=scopeStats();const tot=stats.reduce((a,s)=>a+s.enrolled,0),ex=stats.reduce((a,s)=>a+s.excess,0),fl=stats.reduce((a,s)=>a+s.flagged,0);
+const states={};stats.forEach(s=>states[s.state]=(states[s.state]||0)+s.enrolled);const mx=Math.max(...Object.values(states));
+const cats={};S.filter(s=>stats.some(x=>x.id===s.inst)).forEach(s=>cats[s.cat]=(cats[s.cat]||0)+1);const cm=Math.max(...Object.values(cats));
+return`<section class="wrap"><div class="tag">Analytics</div><h2>${role==="inst"?"Institution dashboard":"National dashboard"}</h2><p class="sub">Recalculated from the current records.</p>
+<div class="kpis"><div class="kpi"><small>Students enrolled</small><div>${tot}</div></div><div class="kpi ${ex?"bad":""}"><small>Admissions above intake</small><div>${ex}</div></div><div class="kpi ${fl?"bad":""}"><small>Records with errors</small><div>${fl}</div></div><div class="kpi"><small>Institutions</small><div>${stats.length}</div></div></div>
+<div class="card scroll"><table><tr><th>Institution</th><th>State</th><th>Intake</th><th>Enrolled</th><th>Compliance</th><th>Risk score</th><th>Anomalies</th></tr>
+${stats.map(s=>{const[l,c]=lvl(s.risk);return`<tr><td>${esc(s.name)}</td><td>${s.state}</td><td>${s.intake}</td><td>${s.regular}${s.enrolled-s.regular?` +${s.enrolled-s.regular} super.`:""}</td><td><span class="pill ${s.comp>=85?"ok":s.comp>=60?"warn":"err"}">${s.comp}%</span></td><td><span class="pill ${c}" title="${s.flagged} flagged records, ${s.excess} over intake, ${s.anom.length} anomalies">${s.risk} · ${l}</span></td><td>${s.anom.length?s.anom.length+" found":"None"}</td></tr>`}).join("")}</table></div>
+<div class="grid2" style="margin-top:20px"><div class="card"><b>Enrolment by state</b>${Object.entries(states).map(([k,v])=>`<div class="bar"><span>${k}</span><div class="track"><div class="fill" style="width:${v/mx*100}%"></div></div><span>${v}</span></div>`).join("")}</div>
+<div class="card"><b>Enrolment by category</b>${Object.entries(cats).map(([k,v])=>`<div class="bar"><span>${k}</span><div class="track"><div class="fill" style="width:${v/cm*100}%"></div></div><span>${v}</span></div>`).join("")}</div></div>
+<div style="margin-top:16px"><button class="btn o" onclick="exportCSV()">Download report (CSV)</button> <button class="btn o" onclick="print()">Print report</button></div></section>`};
+
+V.upload=()=>`<section class="wrap"><div class="tag">Institution</div><h2>Upload student data</h2><p class="sub">Records are validated the moment they are saved. Submitting as Pune Institute of Technology.</p>
+<div class="grid2"><div class="card"><b>Add one student</b><label>APAAR ID (12 digits)</label><input id="f_a" inputmode="numeric" maxlength="14" placeholder="210012345678"><label>Student name</label><input id="f_n"><label>Category</label><select id="f_c">${CATS.map(c=>`<option>${c}</option>`).join("")}</select>
+<label><input type="checkbox" id="f_k" checked style="width:auto"> Student has given consent for verification</label><br><button class="btn" onclick="addOne()">Save and validate</button></div>
+<div class="card"><b>Bulk upload (CSV)</b><p class="sub">One row per line: apaar,name,category</p><textarea id="f_b" rows="7" placeholder="210055550001,Asha Rao,General&#10;210055550002,Vikram Sen,NRI"></textarea><br><br><button class="btn" onclick="addBulk()">Upload and validate</button></div></div><div id="up_res"></div></section>`;
+
+V.students=()=>{const{flags}=analyse();const show=role==="inst"?S.filter(s=>s.inst==="I1"):S;
+return`<section class="wrap"><div class="tag">Records</div><h2>Student records</h2><p class="sub">APAAR IDs are masked. ${role==="admin"?"Administrators can reveal an ID.":""}</p><div class="card scroll"><table><tr><th>APAAR ID</th><th>Name</th><th>Institution</th><th>Category</th><th>Status</th></tr>
+${show.map((s,i)=>{const f=flags.get(s)||[];return`<tr><td class="hash">${role==="admin"?`<span onclick="reveal(this,'${s.apaar}')" style="cursor:pointer" title="Click to reveal (OTP check, logged)">${mask(s.apaar)}</span>`:mask(s.apaar)}</td><td>${esc(s.name)}</td><td>${esc(INST.find(x=>x.id===s.inst).name)}</td><td>${s.cat}</td><td>${f.length?f.map(x=>`<span class="pill ${x.l}">${x.m}</span>`).join(""):'<span class="pill ok">Verified</span>'}</td></tr>`}).join("")}</table></div></section>`};
+
+V.alerts=()=>{const{flags}=analyse();let items=[];flags.forEach((f,s)=>{if(role==="inst"&&s.inst!=="I1")return;f.forEach(x=>items.push({s,...x}))});
+return`<section class="wrap"><div class="tag">Smart alerts</div><h2>Alerts</h2><p class="sub">${items.length} issue${items.length===1?"":"s"} found by the validation engine.</p>
+${analyse().stats.filter(s=>role!=="inst"||s.id==="I1").flatMap(s=>s.anom.map(a=>`<div class="alert w"><b>${esc(s.name)}</b> · ${a}</div>`)).join("")}${items.length?items.map(i=>`<div class="alert ${i.l==="warn"?"w":""}"><b>${esc(INST.find(x=>x.id===i.s.inst).name)}</b> · ${esc(i.s.name)} (${mask(i.s.apaar)})<br>${i.m}</div>`).join(""):"<div class='card'>No issues. Every record passed validation.</div>"}</section>`};
+
+V.audit=()=>`<section class="wrap"><div class="tag">Audit trail</div><h2>Audit trail</h2><p class="sub">Each entry stores the hash of the previous one. Editing or deleting an entry breaks the chain.</p>
+<div class="card scroll"><table><tr><th>Time</th><th>Actor</th><th>Action</th><th>Detail</th><th>Hash</th></tr>${AUDIT.slice().reverse().map(e=>`<tr><td>${e.t}</td><td>${esc(e.actor)}</td><td><span class="pill ok">${e.action}</span></td><td>${esc(e.detail)}</td><td class="hash">${e.h}</td></tr>`).join("")}</table></div>
+<br><button class="btn" onclick="verifyChain()">Verify log integrity</button> <button class="btn o" onclick="tamper()">Simulate tampering</button></section>`;
+
+V.verify=()=>`<section class="wrap"><div class="tag">Authorised verification</div><h2>Verify a student</h2><p class="sub">${role==="emp"?"Employers see a limited view: masked ID, institution and verification status.":"Enter an APAAR ID to check the record and issue a verification token."}</p>
+<div class="grid2"><div class="card"><label>APAAR ID</label><input id="v_a" inputmode="numeric" placeholder="Enter 12-digit APAAR ID"><br><br><button class="btn" onclick="doVerify()">Check record</button><p class="sub" style="margin-top:14px">Demo tip: copy an ID from the Students page (as AICTE Administrator).</p></div><div class="card" id="v_out"><span class="sub">The result appears here.</span></div></div><div class="card" style="margin-top:20px"><b>Check a token</b><label for="t_in">Paste token</label><input id="t_in"><br><br><button class="btn o" onclick="chkTok()">Check signature and expiry</button><p id="t_out" class="sub" style="margin-top:10px"></p></div></section>`;
+
+/* ---------- actions ---------- */
+function saveRecord(a,n,c,k){const s={apaar:a.trim(),name:n.trim(),inst:"I1",cat:c,ch:[{a:k?"granted":"withdrawn",t:new Date().toLocaleDateString(),exp:null}]};if(!s.name)return null;S.push(s);return s}
+function afterSave(c){const{flags}=analyse();const bad=S.slice(-c).filter(s=>flags.get(s)&&flags.get(s).some(x=>x.l==="err"));
+ log("Pune Institute of Technology","UPLOAD",c+" record(s); "+bad.length+" flagged");
+ $("#up_res").innerHTML=`<div class="card" style="margin-top:20px"><b>${c} record(s) saved · ${bad.length} with errors</b>${bad.map(s=>`<div class="alert">${esc(s.name)} (${mask(s.apaar)}): ${flags.get(s).map(x=>x.m).join("; ")}</div>`).join("")||"<p class='sub'>All records passed validation.</p>"}</div>`}
+function addOne(){if(!can("upload"))return deny();const s=saveRecord($("#f_a").value,$("#f_n").value,$("#f_c").value,$("#f_k").checked);if(!s)return toast("Enter the student name");if(s.cat==="Supernumerary")s.supernumerary=true;afterSave(1)}
+function addBulk(){if(!can("upload"))return deny();const rows=$("#f_b").value.split("\n").map(r=>r.split(",").map(x=>x.trim())).filter(r=>r[0]&&r[1]);if(!rows.length)return toast("Add at least one line: apaar,name,category");
+ rows.forEach(r=>{const s=saveRecord(r[0],r[1],CATS.includes(r[2])?r[2]:"General",true);if(s.cat==="Supernumerary")s.supernumerary=true});afterSave(rows.length)}
+function exportCSV(){const{stats}=scopeStats();const t="Institution,State,Intake,Enrolled,Excess,Compliance,Risk\n"+stats.map(s=>[s.name,s.state,s.intake,s.enrolled,s.excess,s.comp,s.risk].join(",")).join("\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="aicte-admissions-report.csv";a.click();log(ROLES[role].label,"REPORT","CSV exported")}
+function verifyChain(){let p="00000000";for(const e of AUDIT){if(e.prev!==p||e.h!==hash(e.prev+e.t+e.actor+e.action+e.detail))return toast("Log tampered at: "+e.action+" – "+e.detail);p=e.h}toast("Log intact: "+AUDIT.length+" entries verified")}
+function tamper(){AUDIT[1].detail="Edited by attacker";render();toast("Entry 2 edited. Now click Verify log integrity.")}
+async function doVerify(){const a=$("#v_a").value.trim(),s=S.find(x=>x.apaar===a),o=$("#v_out");
+ if(!/^\d{12}$/.test(a)){o.innerHTML="<span class='pill err'>Invalid APAAR ID</span><p class='sub'>An APAAR ID has 12 digits.</p>";return}
+ if(!s){o.innerHTML="<span class='pill err'>No record found</span>";log(ROLES[role].label,"VERIFY","Not found "+mask(a));return}
+ if(!hasConsent(s)){o.innerHTML="<span class='pill warn'>Consent missing</span><p class='sub'>The student has not consented to verification, so details are withheld.</p>";log(ROLES[role].label,"VERIFY","Blocked: no consent "+mask(a));return}
+ const full=role==="admin"||role==="reg"||role==="inst",{flags}=analyse(),bad=(flags.get(s)||[]).some(x=>x.l==="err");
+ const exp=Date.now()+15*60000,tok=await signTok(a,exp);window._qr=tok;
+ log(ROLES[role].label,"VERIFY","Record checked "+mask(a));
+ o.innerHTML=`<span class="pill ${bad?"warn":"ok"}">${bad?"Record has open issues":"Verified"}</span><table style="margin-top:10px"><tr><td>APAAR ID</td><td class="hash">${mask(a)}</td></tr><tr><td>Name</td><td>${full?esc(s.name):esc(s.name.split(" ")[0])+" •••"}</td></tr><tr><td>Institution</td><td>${esc(INST.find(x=>x.id===s.inst).name)}</td></tr>${full?`<tr><td>Category</td><td>${s.cat}</td></tr>`:""}</table>
+ <p class="sub" style="margin-top:12px">Verification token (expires in 15 min)</p><div id="qr" style="margin:8px 0"></div><div class="hash" style="word-break:break-all">${tok}</div><p class="sub">Signed with HMAC-SHA256. Paste it in the box below to check it.</p>`;mkQR(tok)}
+function drawQR(t){const c=$("#qr2");if(!c)return;const g=c.getContext("2d"),n=25,z=150/n;let x=parseInt(hash(t),16)||1;g.fillStyle="#fff";g.fillRect(0,0,150,150);g.fillStyle="#075e5a";
+ const fin=(r,k)=>(r<7&&k<7)||(r<7&&k>=n-7)||(r>=n-7&&k<7);
+ for(let r=0;r<n;r++)for(let k=0;k<n;k++){let on;if(fin(r,k)){const a=r%(n-7),b=k%(n-7)>6?k-(n-7):k%(n-7);const rr=r>=n-7?r-(n-7):r,kk=k>=n-7?k-(n-7):k;on=rr===0||rr===6||kk===0||kk===6||(rr>=2&&rr<=4&&kk>=2&&kk<=4)}else{x=(Math.imul(x,1664525)+1013904223)>>>0;on=(x>>>16)&1}
+  if(on)g.fillRect(k*z,r*z,z,z)}}
+/* ---------- v2 additions ---------- */
+const PREV={I1:9,I2:5,I3:4,I4:8,I5:5},TR=[];let encMem="",certI=0;
+function hasConsent(s){const l=s.ch[s.ch.length-1];return l.a==="granted"&&(!l.exp||new Date(l.exp)>new Date())}
+const can=a=>(({reveal:["admin"],upload:["inst"],transfer:["admin","inst"],consent:["admin","inst"]})[a]||[]).includes(role);
+const deny=()=>toast("Not allowed for "+ROLES[role].label+". Access is checked on every action.");
+function reveal(el,a){if(!can("reveal"))return deny();if(prompt("Step-up check: enter the OTP sent to the registered mobile (demo OTP: 123456)")!=="123456")return toast("Incorrect OTP");el.textContent=a;log(ROLES[role].label,"REVEAL","Full ID shown for "+mask(a))}
+/* signed tokens */
+const HK="AICTE-DEMO-KEY";
+async function hmac(m){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(HK),{name:"HMAC",hash:"SHA-256"},false,["sign"]);return[...new Uint8Array(await crypto.subtle.sign("HMAC",k,new TextEncoder().encode(m)))].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function signTok(a,exp){const p=exp+"."+hash(a);return p+"."+(await hmac(p))}
+async function chkTok(){const t=$("#t_in").value.trim().split("."),o=$("#t_out");if(t.length!==3)return o.textContent="Not a valid token format.";const[exp,h,sig]=t;
+ if(sig!==await hmac(exp+"."+h))return o.innerHTML="<span class='pill err'>Signature invalid</span> The token was changed or not issued by this system.";
+ if(+exp<Date.now())return o.innerHTML="<span class='pill err'>Expired</span>";
+ const s=S.find(x=>hash(x.apaar)===h);o.innerHTML="<span class='pill ok'>Signature valid</span> "+(s?esc(s.name.split(" ")[0])+" ••• at "+esc(INST.find(i=>i.id===s.inst).name):"Student not found")+". Expires in "+Math.round((exp-Date.now())/60000)+" min."}
+function mkQR(t){const e=$("#qr");if(!e)return;if(typeof QRCode!=="undefined")new QRCode(e,{text:t,width:150,height:150,colorDark:"#075e5a"});else{e.innerHTML='<canvas id="qr2" width="150" height="150"></canvas>';drawQR(t)}}
+/* consent */
+V.consent=()=>{const rows=S.map((s,i)=>[s,i]).filter(([s])=>role!=="inst"||s.inst==="I1");
+return`<section class="wrap"><div class="tag">Privacy</div><h2>Consent management</h2><p class="sub">Each change is timestamped and kept in the history. Verification is blocked when consent is withdrawn or expired.</p><div class="card scroll"><table><tr><th>Student</th><th>APAAR ID</th><th>Status</th><th>History</th><th>Change</th></tr>${rows.map(([s,i])=>{const ok=hasConsent(s),l=s.ch[s.ch.length-1];return`<tr><td>${esc(s.name)}</td><td class="hash">${mask(s.apaar)}</td><td><span class="pill ${ok?"ok":"err"}">${ok?"Active":l.a==="granted"?"Expired":"Withdrawn"}</span>${l.exp?` <small>until ${l.exp}</small>`:""}</td><td class="hash">${s.ch.map(c=>c.a+" "+c.t).join(", ")}</td><td><input type="date" id="ex${i}" style="width:140px;padding:4px" aria-label="Expiry date"> <button class="btn o" onclick="setConsent(${i},'granted')">Grant</button> <button class="btn o" onclick="setConsent(${i},'withdrawn')">Withdraw</button></td></tr>`}).join("")}</table></div></section>`};
+function setConsent(i,a){if(!can("consent"))return deny();const e=$("#ex"+i).value||null;S[i].ch.push({a,t:new Date().toLocaleDateString(),exp:a==="granted"?e:null});log(ROLES[role].label,"CONSENT",a+" for "+mask(S[i].apaar));render();toast("Consent "+a)}
+/* transfers */
+V.transfers=()=>{const mine=role==="inst"?S.filter(s=>s.inst==="I1"):S;
+return`<section class="wrap"><div class="tag">Student mobility</div><h2>Student transfers</h2><p class="sub">The same APAAR record moves between institutions, so no duplicate is created.</p><div class="grid2"><div class="card"><label>Student</label><select id="t_s">${mine.map(s=>`<option value="${S.indexOf(s)}">${esc(s.name)} (${mask(s.apaar)}) at ${esc(INST.find(x=>x.id===s.inst).name)}</option>`).join("")}</select><label>Move to</label><select id="t_i">${INST.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join("")}</select><br><br><button class="btn" onclick="doTransfer()">Transfer record</button></div>
+<div class="card"><b>Transfer history</b>${TR.length?TR.map(t=>`<div class="alert w" style="border-color:var(--teal);background:var(--mint)">${esc(t.n)} (${t.id}): ${esc(t.f)} to ${esc(t.to)} · ${t.t}</div>`).join(""):"<p class='sub'>No transfers yet.</p>"}</div></div></section>`};
+function doTransfer(){if(!can("transfer"))return deny();const s=S[+$("#t_s").value],to=$("#t_i").value;if(s.inst===to)return toast("Pick a different institution");const nm=x=>INST.find(i=>i.id===x).name;
+ TR.unshift({n:s.name,id:mask(s.apaar),f:nm(s.inst),to:nm(to),t:new Date().toLocaleTimeString()});log(ROLES[role].label,"TRANSFER",mask(s.apaar)+" to "+nm(to));s.inst=to;render();toast("Record transferred")}
+/* certificate */
+V.cert=()=>{const L=S.map((s,i)=>i).filter(i=>role!=="inst"||S[i].inst==="I1");if(!L.includes(certI))certI=L[0];const s=S[certI],it=INST.find(x=>x.id===s.inst);
+return`<section class="wrap"><div class="tag">Certificates</div><h2>Certificate preview</h2><p class="sub">Degree-awarding bodies print the APAAR ID next to the student ID.</p><div class="noprint"><select onchange="certI=+this.value;render()" style="max-width:360px" aria-label="Student">${L.map(i=>`<option value="${i}" ${i===certI?"selected":""}>${esc(S[i].name)}</option>`).join("")}</select><br><br><button class="btn" onclick="print()">Print certificate</button></div>
+<div class="card" style="margin-top:20px;max-width:720px;text-align:center;border:6px double var(--teal);padding:40px"><div class="logo">${esc(it.name)}</div><p class="sub">Approved by the All India Council for Technical Education</p><h2 style="margin:24px 0 8px">Certificate of Completion</h2><p>This is to certify that</p><h2 style="color:var(--teal)">${esc(s.name)}</h2><p>has successfully completed the programme.</p><div style="display:flex;justify-content:space-between;margin-top:30px;font-size:14px;text-align:left"><div>Student ID<br><b>S-${it.id}-${String(certI+1).padStart(4,"0")}</b></div><div>APAAR ID<br><b>${s.apaar}</b></div></div></div></section>`};
+/* API */
+const API=[["POST","/api/v1/students/upload","Institution uploads student records keyed by APAAR ID",0],["GET","/api/v1/students/{apaar}","Record lookup (role and consent checked)",1],["GET","/api/v1/verify/{token}","Check a signed verification token",0],["GET","/api/v1/institutions/{id}/compliance","Compliance and risk score",3],["POST","/api/v1/transfers","Move a student between institutions",0]];
+function tryApi(i){const a=analyse();let r;if(i===1){const s=S[0];r={apaar:mask(s.apaar),name:s.name,institution:s.inst,category:s.cat,consent:hasConsent(s)?"active":"inactive"}}else{const s=a.stats[0];r={institution:s.name,approved_intake:s.intake,enrolled:s.enrolled,compliance_score:s.comp,risk_score:s.risk,anomalies:s.anom}}
+ $("#api_out").textContent="HTTP 200\n"+JSON.stringify(r,null,2)}
+V.api=()=>`<section class="wrap"><div class="tag">Integration</div><h2>API for institutional and AICTE systems</h2><p class="sub">Endpoints a production deployment would expose. Authentication: OAuth2 bearer token plus an API key per institution. The two buttons below run against the demo data.</p>
+<div class="card scroll"><table><tr><th>Method</th><th>Endpoint</th><th>Purpose</th><th></th></tr>${API.map(a=>`<tr><td><span class="pill ok">${a[0]}</span></td><td class="hash">${a[1]}</td><td>${a[2]}</td><td>${a[3]?`<button class="btn o" onclick="tryApi(${a[3]})">Try</button>`:""}</td></tr>`).join("")}</table></div>
+<div class="grid2" style="margin-top:20px"><div class="card"><b>Sample upload request</b><pre class="hash" style="white-space:pre-wrap">{
+ "institution_id": "I1",
+ "students": [{
+  "apaar_id": "210012345678",
+  "name": "Asha Rao",
+  "category": "NRI",
+  "supernumerary": false,
+  "consent": true }]
+}</pre></div><div class="card"><b>Response</b><pre class="hash" id="api_out" style="white-space:pre-wrap">Press Try on a row.</pre></div></div></section>`;
+/* security & privacy */
+const ARCH=[["Institution systems","ERP, student systems, CSV upload"],["API gateway","TLS, OAuth2, OTP, rate limits"],["Access control","Role checked on every request"],["Validation engine","APAAR, duplicates, intake, anomalies"],["Encrypted repository","AES-256 at rest, masked fields"],["Audit ledger","Hash-chained, append only"],["Analytics and verification","Dashboards, signed QR tokens"]];
+V.security=()=>`<section class="wrap"><div class="tag">Security and privacy</div><h2>Architecture and privacy notice</h2><p class="sub">Production design. This demo runs the checks in the browser only.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:stretch">${ARCH.map((a,i)=>`<div class="card" style="flex:1 1 150px;padding:14px"><b>${a[0]}</b><p class="sub" style="margin:4px 0 0">${a[1]}</p></div>${i<ARCH.length-1?'<div style="align-self:center;color:var(--teal);font-size:22px">›</div>':""}`).join("")}</div>
+<div class="grid2" style="margin-top:20px"><div class="card"><b>Privacy notice (designed to follow DPDP Act principles)</b><ul style="margin:10px 0 0 18px;font-size:14px;color:var(--mut)"><li>Purpose: verify enrolment and monitor admissions in AICTE-approved institutions.</li><li>Only data needed for that purpose is collected.</li><li>Employers see masked IDs and only with the student's consent.</li><li>Students can withdraw consent or ask for corrections at any time.</li><li>Every access is logged. Records are kept only as long as regulation requires.</li><li>Session ends automatically after inactivity (60 seconds in this demo).</li></ul></div>
+<div class="card"><b>Encrypted storage (AES-GCM)</b><p class="sub">Save all records and the audit log to this browser, encrypted with your passphrase.</p><label for="pp">Passphrase</label><input id="pp" type="password" placeholder="At least 6 characters"><br><br><button class="btn" onclick="encSave()">Save encrypted</button> <button class="btn o" onclick="encLoad()">Load</button><p class="hash" id="enc_out" style="word-break:break-all;margin-top:10px"></p></div></div></section>`;
+async function dk(p,salt){const b=await crypto.subtle.importKey("raw",new TextEncoder().encode(p),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:100000,hash:"SHA-256"},b,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+const b64=u=>btoa(String.fromCharCode(...u)),unb=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function encSave(){const p=$("#pp").value;if(p.length<6)return toast("Passphrase needs at least 6 characters");const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+ const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},await dk(p,salt),new TextEncoder().encode(JSON.stringify({S,AUDIT,TR}))));const out=b64(salt)+"."+b64(iv)+"."+b64(ct);encMem=out;try{localStorage.setItem("apaar_enc",out)}catch(e){}
+ $("#enc_out").textContent="Stored as ciphertext: "+out.slice(0,120)+"…";log(ROLES[role].label,"ENCRYPT","Snapshot saved (AES-GCM)")}
+async function encLoad(){let d=encMem;try{d=localStorage.getItem("apaar_enc")||d}catch(e){}if(!d)return toast("Nothing saved yet");const[s,i,c]=d.split(".");
+ try{const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb(i)},await dk($("#pp").value,unb(s)),unb(c));const o=JSON.parse(new TextDecoder().decode(pt));S.length=0;S.push(...o.S);AUDIT.length=0;AUDIT.push(...o.AUDIT);TR.length=0;TR.push(...o.TR);toast("Decrypted and loaded")}catch(e){toast("Wrong passphrase or data was changed")}}
+/* session timeout */
+let idleT,cd;function resetIdle(){clearTimeout(idleT);idleT=setTimeout(warnIdle,60000)}
+function warnIdle(){const o=$("#idle");o.style.display="flex";let n=15;$("#idle_n").textContent=n;cd=setInterval(()=>{n--;$("#idle_n").textContent=n;if(n<=0){clearInterval(cd);o.style.display="none";role="emp";view="home";log("System","SESSION","Timed out; switched to Employer view");render();toast("Session timed out. Switched to the least-privileged role.")}},1000)}
+function stay(){clearInterval(cd);$("#idle").style.display="none";resetIdle()}
+["click","keydown","mousemove"].forEach(e=>addEventListener(e,()=>{if($("#idle").style.display!=="flex")resetIdle()}));
+render();
+</script>
+</body>
+</html>
